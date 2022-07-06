@@ -2,7 +2,7 @@
 
 ## Introduction
 
-My name is Timo Riske and I've actively been doing American football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry. The following article is about practicing in football and sports analytics, but it's too theoretical for an article about football on my employer's site https://pff.com, hence I'm publishing it through GitHub.
+My name is Timo Riske and I've actively been doing American football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry. The following article is about practicing in football and sports analytics, but it's too theoretical for an article about football on my employer's site (https://pff.com), hence I'm publishing it through GitHub.
 
 If you're practicing sports analytics, and that's especially true for American football analytics, and have talked to other stats people about models that try to predict future performance with past information, you might have heard the following response: "All I see is dramatically low R-squared values, nothing of this means anything".
 
@@ -19,7 +19,13 @@ There is definitely an upper bound for R-squared values on the season-level, as 
 
 Hence, while it's certainly possible to asymptotically increase the R-squared values of performance-predicting models, there is definitely an upper bound we cannot break through. And this bound is probably lower than we wished it were. The good news: This doesn't mean that analytics is useless. NFL teams, coaches and general manager get evaluations wrong all the time when it comes to predicting future production. A well-known finding in American football is that a drafted player is better than the next-drafted player at the same position at a rate of only `53%`, just a tad better than a coin flip. And even for players with at least a four-year sample size in the NFL (which is usually the case for every free agents), teams get it wrong fairly often, as indicated by expensive players with mediocre production or by cheap players with good production (in which case all other 31 teams got the evaluation wrong).
 
-**Always remember: The goal of analytics isn't to be perfect, the goal of analytics is to improve upon the decisions/evaluations that are made without an analytical framework**
+**Always remember: The goal of analytics isn't to be perfect, the goal of analytics is to improve upon the decisions/evaluations that are made without an analytical framework.**
+
+After coming to grips with the fact that we will always deal with fairly low R-squared values on the season-level, what does this mean for the game- or even play-level?
+
+It's notable that the R-squared values of a linear model `Y~X` is obviously related to the residual variance `Var(E)`. This is easily seen through the definition
+
+![equation](https://latex.codecogs.com/png.latex?R^2 = \frac{\sum{i} (y_i - x_i)^2}{\sum{i} (y_i - \overline y)^2})
 
 
 ```r
