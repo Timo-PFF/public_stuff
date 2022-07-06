@@ -2,7 +2,7 @@
 
 ## Introduction
 
-My name is Timo Riske and I've actively been doing football analytics since 2017 and I've been a data scientist for PFF since 2019. The following article
+My name is Timo Riske and I've actively been doing football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry.
 
 
 ```r
@@ -31,9 +31,7 @@ Multiple R-squared:  0.01013,	Adjusted R-squared:  0.01008
 F-statistic: 204.6 on 1 and 19998 DF,  p-value: < 2.2e-16
 ```
 
-<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+inline <img src="https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}"> latex
 
-<img src="https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}">
-
-![equation](https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n})
+inline ![equation](https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}) latex
 
