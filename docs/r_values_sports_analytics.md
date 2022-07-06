@@ -39,11 +39,14 @@ We obtain (assuming the residuals are independent of X, which is one of the basi
 
 In particular, the R-squared values increases asymptotically towards `1` when the residual variance approaches zero and it approaches zero when the residual variances becomes large.
 
+We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores and predict yards gained on a route run. The following R code sets this up and should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
+
 ```r
-x <- rnorm(20*10^3, sd = 1)
+x <- rnorm(60*10^3, sd = 1)
 y <- x + rnorm(length(x), sd = 10)
 lm(y ~ x) %>% summary
 ```
+And indeed...
 
 ```
 Call:
