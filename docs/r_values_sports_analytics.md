@@ -1,8 +1,14 @@
-# About R(-squared) values in football & sports analytics
+# About R(-squared) values in American football & sports analytics
 
 ## Introduction
 
-My name is Timo Riske and I've actively been doing football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry.
+My name is Timo Riske and I've actively been doing American football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry. The following article is about practicing in football and sports analytics, but it's too theoretical for an article about football on my employer's site https://pff.com, hence I'm publishing it through GitHub.
+
+If you're practicing sports analytics, and that's especially true for American football analytics, and have talked to other stats people about models that try to predict future performance with past information, you might have heard the following response: "All I see is dramatically low R-squared values, nothing of this means anything".
+
+Indeed, predictive models on a play-level often come with a R-squared value of `0.01`. This sounds ridiculously low compared to the models you considered in university. Thus...this person is right and your work is useless and bad?
+
+Here is the thing: This person is not right. This person was either not paying attention or understand less about stats than he/she might think.
 
 
 ```r
