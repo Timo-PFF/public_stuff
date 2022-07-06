@@ -23,9 +23,15 @@ Hence, while it's certainly possible to asymptotically increase the R-squared va
 
 After coming to grips with the fact that we will always deal with fairly low R-squared values on the season-level, what does this mean for the game- or even play-level?
 
-It's notable that the R-squared values of a linear model `Y~X` is obviously related to the residual variance `Var(E)`. This is easily seen through the definition
+It's notable that the R-squared values of a linear model `Y~X` is obviously related to the residual variance `Var(E) = Var(Y-X)`. This is easily seen through the definition.
 
-![equation](https://latex.codecogs.com/png.latex?R^2=\frac{\sum_{i}(y_i-x_i)^2}{\sum_{i}(y_i-\overline{y})^2})
+![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\sum_{i}(y_i-x_i)^2}{\sum_{i}(y_i-\overline{y})^2})
+
+With `E = Y-X`, note that the numerator is `N * Var(E)` and the denominator is `N * Var(Y)`, hence we get
+
+![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y))
+
+For the sake of normalization, let's assume ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(X)=1) and define ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2) 
 
 
 ```r
