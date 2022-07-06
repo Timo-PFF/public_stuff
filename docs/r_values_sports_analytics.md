@@ -17,6 +17,8 @@ There is definitely an upper bound for R-squared values on the season-level, as 
 * Opponent adjustments on the player level are possible by now, e understand a lot about how teammates can help each other's statistics on the field and we can even describe how coaches can influence a player's performance, we will never be able to *fully* disentangle a player from his surroundings, that is his opponents, his teammates and the scheme of the offense and defense. All of this leads to further variance in performance of the same player.
 * Even if we could fully disentangle a player from his surroundings, it's notable that his surroundings are also subject to natural variance, enhancing the effect of the natural variance of the player himself.
 
+Hence, while it's certainly possible to asymptotically increase the R-squared values of performance-predicting models, there is definitely an upper bound we cannot break through. And this bound is probably lower than we wished it were. This doesn't mean that analytics is useless. NFL teams, coaches and general manager get evaluations wrong all the time when it comes to predicting future production. A well-known finding in American football is that a drafted player is better than the next-drafted player at the same position at a rate of only `53%`, just a tad better than a coin flip. And even for players with at least a four-year sample size in the NFL (which is usually the case for every free agents), teams get it wrong fairly often, as indicated by expensive players with mediocre production or by cheap players with good production (in which case all other 31 teams got the evaluation wrong)
+
 
 ```r
 x <- rnorm(20*10^3, sd = 1)
