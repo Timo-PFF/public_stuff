@@ -8,7 +8,11 @@ If you're practicing sports analytics, and that's especially true for American f
 
 Indeed, predictive models on a play-level often come with a R-squared value of `0.01`. This sounds ridiculously low compared to the models you considered in university. Thus...this person is right and your work is useless and bad?
 
-Here is the thing: This person is not right. This person was either not paying attention or understand less about stats than he/she might think.
+Here is the thing: This person couldn't be more wrong. This person was either not paying attention or understands less about stats than he/she might think.
+
+To elaborate on this, we will talk about the relationship between R-squared values on the play-, game- and season-level. Imagine you've developed to a metric to evaluate a wide receiver and you want to use this metric to predict what happens on a given play. Ideally, you choose something tangible, something which matters as the target metric. Given that we chose wide receivers for our thought experiment, think about earning a target, catching a ball or the amount of yards caught on that route. Which R-squared values can you expect when predicting this target metric?
+
+There is definitely an upper bound for R-squared values on the season-level, as findings in NFL analytics have shown that it's not easy to get a R-squared value of `0.5` when predicting performance. First of all there is always natural variance when it comes to the performance of a human being and that's even true in sports in which the individual success of a participant depends almost only on that individual's skill and form on the day, such as track & field or skiing. Now, if we consider that football is much more complex sports in which an individual player's success also depends on his teammates, his opponents, the scheme he is playing in, the chess match between his and his opponent's coaches and other factors not in his control.
 
 
 ```r
