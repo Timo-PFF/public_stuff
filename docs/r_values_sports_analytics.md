@@ -25,7 +25,7 @@ After coming to grips with the fact that we will always deal with fairly low R-s
 
 It's notable that the R-squared values of a linear model `Y~X` is obviously related to the residual variance `Var(E)`. This is easily seen through the definition
 
-![equation](https://latex.codecogs.com/png.latex?R^2 = \frac{\sum{i} (y_i - x_i)^2}{\sum{i} (y_i - \overline y)^2})
+![equation](https://latex.codecogs.com/png.latex?R^2=\frac{\sum{i} (y_i - x_i)^2}{\sum{i} (y_i - \overline y)^2})
 
 
 ```r
