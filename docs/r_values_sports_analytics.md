@@ -1,8 +1,6 @@
 ---
 title: "About R(-squared) values in sports & football analytics"
 author: "Timo Riske"
-output:  
-  rmarkdown::github_document
 ---
 
 ## Introduction
