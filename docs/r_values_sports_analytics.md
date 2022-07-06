@@ -39,7 +39,7 @@ We obtain (assuming the residuals are independent of X, which is one of the basi
 
 In particular, the R-squared values increases asymptotically towards `1` when the residual variance approaches zero and it approaches zero when the residual variances becomes large.
 
-We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores and predict yards gained on a route run. The following R code sets this up and should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
+We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores and predict yards gained on a route run. The following R code is a simplification of your data on the play level. According to our computations, it should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
 
 ```r
 x <- rnorm(60*10^3, sd = 1)
@@ -54,18 +54,47 @@ lm(formula = y ~ x)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--37.430  -6.762   0.066   6.728  41.699 
+-42.004  -6.719  -0.002   6.784  40.261 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.02260    0.07069   -0.32    0.749    
-x            1.01957    0.07127   14.30   <2e-16 ***
+(Intercept)  0.04242    0.04102   1.034    0.301    
+x            0.97874    0.04070  24.049   <2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 9.996 on 19998 degrees of freedom
-Multiple R-squared:  0.01013,	Adjusted R-squared:  0.01008 
-F-statistic: 204.6 on 1 and 19998 DF,  p-value: < 2.2e-16
+Residual standard error: 10.05 on 59998 degrees of freedom
+Multiple R-squared:  0.009548,	Adjusted R-squared:  0.009531 
+F-statistic: 578.4 on 1 and 59998 DF,  p-value: < 2.2e-16
+```
+
+Note that our computation didn't depend on the residuals being normally distributed, they could even be discrete (Think of predicting a sack/pressure).
+
+```r
+x <- rnorm(60*10^3, sd = 1)
+y <- x + 2*rbinom(length(x), size = 1, prob = 0.5)
+lm(y ~ x) %>% summary
+```
+The residual term has a variance of `1`, hence we expect an R-squared value of `1/2` and indeed...
+
+```
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.0019 -0.9981 -0.9953  1.0019  1.0056 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.998134   0.004083   244.5   <2e-16 ***
+x           0.999009   0.004094   244.0   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1 on 59998 degrees of freedom
+Multiple R-squared:  0.4981,	Adjusted R-squared:  0.4981 
+F-statistic: 5.954e+04 on 1 and 59998 DF,  p-value: < 2.2e-16
 ```
 
 inline <img src="https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}"> latex
