@@ -29,10 +29,15 @@ It's notable that the R-squared values of a linear model `Y~X` is obviously rela
 
 With `E = Y-X`, note that the numerator is `N * Var(E)` and the denominator is `N * Var(Y)`, hence we get
 
-![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y))
+![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y)})
 
 For the sake of normalization, let's assume ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(X)=1) and define ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2) 
 
+We obtain (assuming the residuals are independent of X, which is one of the basic assumptions for the usability of a linear model)
+
+![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y)}=1-\frac{\sigma^2}{1+\sigma^2}=\frac{1+\sigma^2-\sigma^2}{1+\sigma^2}=\frac{1}{1+\sigma^2})
+
+In particular, the R-squared values increases asymptotically towards `1` when the residual variance approaches zero and it approaches zero when the residual variances becomes large.
 
 ```r
 x <- rnorm(20*10^3, sd = 1)
