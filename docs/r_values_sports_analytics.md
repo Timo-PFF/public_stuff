@@ -30,3 +30,5 @@ Residual standard error: 9.996 on 19998 degrees of freedom
 Multiple R-squared:  0.01013,	Adjusted R-squared:  0.01008 
 F-statistic: 204.6 on 1 and 19998 DF,  p-value: < 2.2e-16
 ```
+
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
