@@ -33,13 +33,13 @@ With `E = Y-X`, note that the numerator is `N * Var(E)` and the denominator is `
 
 For the sake of normalization, let's assume ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(X)=1) and define ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2) 
 
-We obtain (assuming the residuals are independent of X, which is one of the basic assumptions for the usability of a linear model)
+We obtain (assuming the residuals are independent of `X`, which is one of the basic assumptions for the usability of a linear model)
 
 ![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y)}=1-\frac{\sigma^2}{1+\sigma^2}=\frac{1+\sigma^2-\sigma^2}{1+\sigma^2}=\frac{1}{1+\sigma^2})
 
 In particular, the R-squared values increases asymptotically towards `1` when the residual variance approaches zero and it approaches zero when the residual variances becomes large.
 
-We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores and predict yards gained on a route run. The following R code is a simplification of your data on the play level. According to our computations, it should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
+We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores (thus `X` is centered around zero and has variance `1`) and predict yards gained on a route run. The following R code is a simplification of your data on the play level. According to our computations, it should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
 
 ```r
 x <- rnorm(60*10^3, sd = 1)
