@@ -32,3 +32,8 @@ F-statistic: 204.6 on 1 and 19998 DF,  p-value: < 2.2e-16
 ```
 
 <img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+
+<img src="https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}">
+
+![equation](https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n})
+
