@@ -107,4 +107,4 @@ In football terms, assume a wide receiver's true skill level is `X_0` and the re
 
 If said wide-receiver plays `n` snaps (in a game or in a season) and we observe ![equation](https://latex.codecogs.com/png.latex?Y_1, \dots, Y_n) as i.i.d copies of `Y`, we obtain (note that `X_0` is a scalar):
 
-![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}\left(\frac{\sum\limits_{i=1}^nY_i}{n}\right)=X_0+\frac{\sum\limits_{i=1}^nE_i}{n}\right).)
+![equation](https://latex.codecogs.com/png.latex?\left(\frac{\sum\limits_{i=1}^nY_i}{n}\right)=X_0+\frac{\sum\limits_{i=1}^nE_i}{n}.)
