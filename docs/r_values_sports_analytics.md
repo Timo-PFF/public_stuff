@@ -103,8 +103,12 @@ We have a random variable `T` with real values and observe it `n` times in an in
 
 ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}\left(\frac{\sum\limits_{i=1}^nT_i}{n}\right)=\frac{\sum\limits_{i=1}^n\operatorname{Var}(T_i)}{n^2}=\frac{n\operatorname{Var}(T)}{n^2}=\frac{\operatorname{Var}(T)}{n}.)
 
-In football terms, assume a wide receiver's true skill level is `X_0` and the residual variance when predicting the metric of interest `Y` on the play-level is (https://latex.codecogs.com/png.latex?\sigma^2. As we've already established, we can assume ![equation](https://latex.codecogs.com/png.latex?Y=X_0+E) with ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2.)
+In football terms, assume a wide receiver's true skill level is `X_0` and the residual variance when predicting the metric of interest `Y` on the play-level is ![equation](https://latex.codecogs.com/png.latex?\sigma^2). As we've already established, we can assume ![equation](https://latex.codecogs.com/png.latex?Y=X_0+E) with ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2.)
 
 If said wide-receiver plays `n` snaps (in a game or in a season) and we observe ![equation](https://latex.codecogs.com/png.latex?Y_1, \dots, Y_n) as i.i.d copies of `Y`, we obtain (note that `X_0` is a scalar):
 
 ![equation](https://latex.codecogs.com/png.latex?\left(\frac{\sum\limits_{i=1}^nY_i}{n}\right)=X_0+\frac{\sum\limits_{i=1}^nE_i}{n}.)
+
+This shows that the residual variance of the mean of `Y` over the `n` snaps is ![equation](https://latex.codecogs.com/png.latex?\frac{\sigma^2}{n}) and the R-squared value when predicting this mean will be
+
+![equation](https://latex.codecogs.com/png.latex?R^2=\frac{1}{1+\frac{\sigma^2}{n}}=\frac{n}{n+\sigma^2}.)
