@@ -103,6 +103,8 @@ We have a random variable `T` with real values and observe it `n` times in an in
 
 ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}\left(\frac{\sum\limits_{i=1}^nT_i}{n}\right)=\frac{\sum\limits_{i=1}^n\operatorname{Var}(T_i)}{n^2}=\frac{n\operatorname{Var}(T)}{n^2}=\frac{\operatorname{Var}(T)}{n}.)
 
+This is what we mean when we say that variance gets smaller with a larger sample size. We actually mean that the variance of the mean observation gets smaller (by the factor `1/n`).
+
 In football terms, assume a wide receiver's true skill level is `X_0` and the residual variance when predicting the metric of interest `Y` on the play-level is ![equation](https://latex.codecogs.com/png.latex?\sigma^2). As we've already established, we can assume ![equation](https://latex.codecogs.com/png.latex?Y=X_0+E) with ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2.)
 
 If said wide-receiver plays `n` snaps (in a game or in a season) and we observe ![equation](https://latex.codecogs.com/png.latex?Y_1,\dots,Y_n) as i.i.d copies of `Y`, we obtain (note that `X_0` is a scalar):
