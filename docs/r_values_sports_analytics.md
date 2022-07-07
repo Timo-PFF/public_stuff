@@ -198,7 +198,7 @@ F-statistic:  1035 on 1 and 998 DF,  p-value: < 2.2e-16
 
 Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way. We do that by randomly assigning a variable `season_tendency` to each player season. After each play, we randomly shift his prior (`X`) in the direction of this tendency and we also skew the residuals by making them centered around this tendency instead of zero. In other words, over the course of the season some players get better than we initially thought (`X_0`) and some players get worse than we initially thought.
 
-At the end of we, of course, predict the mean observation of each player with just the initial prior `X_0`, because that's the only prior we had prior to the season.
+Finally, we, of course, predict the mean observation of each player with just the initial prior `X_0`, because that's the only prior we had prior to the season.
 
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
