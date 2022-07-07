@@ -196,7 +196,7 @@ Multiple R-squared:  0.5091,	Adjusted R-squared:  0.5087
 F-statistic:  1035 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
 
-Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way.
+Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way. We do that by randomly assigning a variable `season_tendency` to each player season. After each play, we randomly shift his prior (`X`) in the direction of this tendency and we also skew the residuals by making them centered around this tendency instead of zero.
 
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
@@ -212,10 +212,13 @@ player_seasons <- player_seasons %>% group_by(player_season_id) %>%
 				  mutate(x_final = last(x)) %>%
 				  ungroup()
 				  
-player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
+player_seasons %>% filter(play_in_season==1) %>%
+     ggplot(aes(x = x_final - x0)) +
+	 geom_histogram()
 
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
-                                                          mean = season_tendency, sd = sqrt(500)))
+                                                          mean = season_tendency,
+														  sd = sqrt(500)))
 player_season_agg <- player_seasons %>%
                      group_by(player_season_id,N,x0,x_final) %>%
 					 summarise(y = mean(y)) %>% ungroup()
@@ -261,10 +264,13 @@ player_seasons <- player_seasons %>% group_by(player_season_id) %>%
 				  mutate(x_final = last(x)) %>%
 				  ungroup()
 				  
-player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
+player_seasons %>% filter(play_in_season==1) %>%
+     ggplot(aes(x = x_final - x0)) +
+	 geom_histogram()
 
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
-                                                          mean = season_tendency, sd = sqrt(500)))
+                                                          mean = season_tendency,
+														  sd = sqrt(500)))
 player_season_agg <- player_seasons %>%
                      group_by(player_season_id,N,x0,x_final) %>%
 					 summarise(y = mean(y)) %>% ungroup()
