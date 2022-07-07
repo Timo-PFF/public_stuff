@@ -125,14 +125,14 @@ Before accounting for this issue, let us verify our formula nevertheless. Since 
 
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
-						 x = rnorm(1000, sd = 1),
-						 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
-				  tidyr::crossing(play_in_season = 1:5000) %>%
-				  filter(play_in_season <= N)
+			 x = rnorm(1000, sd = 1),
+			 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
+		  tidyr::crossing(play_in_season = 1:5000) %>%
+		  filter(play_in_season <= N)
 				  
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = 10))
 player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>%
-					 summarise(y = mean(y)) %>% ungroup()
+					summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x) %>% summary
 ```
 
@@ -163,10 +163,10 @@ Let's use a play-by-play residual variance of `500` (leading to a play-level R-s
 
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
-						 x = rnorm(1000, sd = 1),
-						 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
-				  tidyr::crossing(play_in_season = 1:5000) %>%
-				  filter(play_in_season <= N)
+		         x = rnorm(1000, sd = 1),
+			 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
+		  tidyr::crossing(play_in_season = 1:5000) %>%
+		  filter(play_in_season <= N)
 				  
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = sqrt(500)))
 player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>%
@@ -203,27 +203,27 @@ Finally, we, of course, predict the mean observation of each player with just th
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
                          x0 = rnorm(1000, sd = 1),
-						 season_tendency = rnorm(1000, sd = 0.4),
+			 season_tendency = rnorm(1000, sd = 0.4),
                          N = round(rnorm(1000, mean = 500, sd = 50))) %>%
-				  tidyr::crossing(play_in_season = 1:5000) %>%
-				  filter(play_in_season <= N)
+		  tidyr::crossing(play_in_season = 1:5000) %>%
+		  filter(play_in_season <= N)
 
 player_seasons <- player_seasons %>% group_by(player_season_id) %>%
                   mutate(x = lag(x0) + rnorm(n(), mean = season_tendency, sd = 0.05)) %>%
-				  mutate(x = ifelse(is.na(x), x0, x)) %>%
-				  mutate(x_final = last(x)) %>%
-				  ungroup()
+		  mutate(x = ifelse(is.na(x), x0, x)) %>%
+		  mutate(x_final = last(x)) %>%
+		  ungroup()
 				  
 player_seasons %>% filter(play_in_season==1) %>%
      ggplot(aes(x = x_final - x0)) +
-	 geom_histogram()
+     geom_histogram()
 
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
                                                           mean = season_tendency,
-														  sd = sqrt(500)))
+							  sd = sqrt(500)))
 player_seasons_agg <- player_seasons %>%
                       group_by(player_season_id,N,x0,x_final) %>%
-					  summarise(y = mean(y)) %>% ungroup()
+		      summarise(y = mean(y)) %>% ungroup()
 lm(data = player_seasons_agg, y ~ x0) %>% summary
 ```
 
@@ -255,27 +255,27 @@ Let's simulate three seasons, i.e. `1500` plays.
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
                          x0 = rnorm(1000, sd = 1),
-						 season_tendency = rnorm(1000, sd = 0.4),
+			 season_tendency = rnorm(1000, sd = 0.4),
                          N = round(rnorm(1000, mean = 1500, sd = 50))) %>%
-				  tidyr::crossing(play_in_season = 1:5000) %>%
-				  filter(play_in_season <= N)
+		  tidyr::crossing(play_in_season = 1:5000) %>%
+		  filter(play_in_season <= N)
 
 player_seasons <- player_seasons %>% group_by(player_season_id) %>%
                   mutate(x = lag(x0) + rnorm(n(), mean = season_tendency, sd = 0.05)) %>%
-				  mutate(x = ifelse(is.na(x), x0, x)) %>%
-				  mutate(x_final = last(x)) %>%
-				  ungroup()
+		  mutate(x = ifelse(is.na(x), x0, x)) %>%
+		  mutate(x_final = last(x)) %>%
+		  ungroup()
 				  
 player_seasons %>% filter(play_in_season==1) %>%
      ggplot(aes(x = x_final - x0)) +
-	 geom_histogram()
+     geom_histogram()
 
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
                                                           mean = season_tendency,
-														  sd = sqrt(500)))
+							  sd = sqrt(500)))
 player_seasons_agg <- player_seasons %>%
                       group_by(player_season_id,N,x0,x_final) %>%
-					  summarise(y = mean(y)) %>% ungroup()
+		      summarise(y = mean(y)) %>% ungroup()
 lm(data = player_seasons_agg, y ~ x0) %>% summary
 ```
 
