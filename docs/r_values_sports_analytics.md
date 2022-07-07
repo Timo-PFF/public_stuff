@@ -99,5 +99,7 @@ F-statistic: 5.954e+04 on 1 and 59998 DF,  p-value: < 2.2e-16
 
 We've learned that if the predictors come with constant variance (which is usually roughly the case), the R-squared value is just a codified version of the residual variance. What happens with variance if we repeat a random experiment multiple times? It get's smaller. How is this derived mathematically?
 
-We have a random variable `T` with real values and observe it `n` times in an indepenent way and build the mean of the result, in other words we consider ![equation](https://latex.codecogs.com/png.latex?\frac{\sum_i^n\operatorname{Var}(T)}{n}).
+We have a random variable `T` with real values and observe it `n` times in an indepenent way and build the mean of the result, in other words we consider ![equation](https://latex.codecogs.com/png.latex?\frac{\sum_i^nT_i}{n}) with the `T_i` being i.i.d copies of `T`. Let's compute the variance, using the independency assumption:
+
+![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(\frac{\sum_i^nT_i}{n})=\frac{\sum_i^n\operatorname{Var}(T_i)}{n^2}=\frac{n\operatorname{Var}(T)}[n^2}=\frac{\operatorname{Var}(T)}[n})
 
