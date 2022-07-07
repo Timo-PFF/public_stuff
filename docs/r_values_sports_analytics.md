@@ -193,7 +193,7 @@ Now let us investigate what happens if we acknowledge that `X` changes over time
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
                          x0 = rnorm(1000, sd = 1),
-						 season_tendency = rnorm(1000, sd = 0.2),
+						 season_tendency = rnorm(1000, sd = 0.4),
                          N = round(rnorm(1000, mean = 500, sd = 50))) %>%
 				  tidyr::crossing(play_in_season = 1:5000) %>%
 				  filter(play_in_season <= N)
@@ -217,19 +217,21 @@ lm(formula = y ~ x0, data = player_season_agg)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.1836 -0.6842  0.0019  0.7821  3.3556 
+-4.0583 -0.9149 -0.0277  0.9275  4.5650 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.04034    0.03344  -1.206    0.228    
-x0           0.96178    0.03390  28.374   <2e-16 ***
+(Intercept)  0.07089    0.04261   1.664   0.0965 .  
+x0           0.96485    0.04283  22.527   <2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 1.057 on 998 degrees of freedom
-Multiple R-squared:  0.4465,	Adjusted R-squared:  0.4459 
-F-statistic: 805.1 on 1 and 998 DF,  p-value: < 2.2e-16
+Residual standard error: 1.347 on 998 degrees of freedom
+Multiple R-squared:  0.3371,	Adjusted R-squared:  0.3364 
+F-statistic: 507.5 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
+
+We miss the theoretical mark of `0.5`.
 
 Let's simulate three seasons, i.e. `1500` plays.
 
@@ -237,7 +239,7 @@ Let's simulate three seasons, i.e. `1500` plays.
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
                          x0 = rnorm(1000, sd = 1),
-						 season_tendency = rnorm(1000, sd = 0.2),
+						 season_tendency = rnorm(1000, sd = 0.4),
                          N = round(rnorm(1000, mean = 1500, sd = 50))) %>%
 				  tidyr::crossing(play_in_season = 1:5000) %>%
 				  filter(play_in_season <= N)
@@ -262,17 +264,17 @@ Call:
 lm(formula = y ~ x0, data = player_season_agg)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--2.74356 -0.46739  0.03614  0.47855  2.39307 
+    Min      1Q  Median      3Q     Max 
+-3.1803 -0.6921  0.0555  0.6951  2.7053 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.03706    0.02231  -1.661    0.097 .  
-x0           1.02770    0.02263  45.414   <2e-16 ***
+(Intercept)  0.03368    0.02996   1.124    0.261    
+x0           0.96891    0.03054  31.727   <2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.7051 on 998 degrees of freedom
-Multiple R-squared:  0.6739,	Adjusted R-squared:  0.6736 
-F-statistic:  2062 on 1 and 998 DF,  p-value: < 2.2e-16
+Residual standard error: 0.9476 on 998 degrees of freedom
+Multiple R-squared:  0.5021,	Adjusted R-squared:  0.5016 
+F-statistic:  1007 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
