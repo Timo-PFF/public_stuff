@@ -196,7 +196,9 @@ Multiple R-squared:  0.5091,	Adjusted R-squared:  0.5087
 F-statistic:  1035 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
 
-Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way. We do that by randomly assigning a variable `season_tendency` to each player season. After each play, we randomly shift his prior (`X`) in the direction of this tendency and we also skew the residuals by making them centered around this tendency instead of zero. In other words, over the course of the season some players get better than we initially thought (`X_0`) and some players get worse over the course of the season than we initially thought.
+Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way. We do that by randomly assigning a variable `season_tendency` to each player season. After each play, we randomly shift his prior (`X`) in the direction of this tendency and we also skew the residuals by making them centered around this tendency instead of zero. In other words, over the course of the season some players get better than we initially thought (`X_0`) and some players get worse than we initially thought.
+
+At the end of we, of course, predict the mean observation of each player with just the initial prior `X_0`, because that's the only prior we had prior to the season.
 
 ```r
 player_seasons <- tibble(player_season_id = 1:1000,
@@ -219,10 +221,10 @@ player_seasons %>% filter(play_in_season==1) %>%
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
                                                           mean = season_tendency,
 														  sd = sqrt(500)))
-player_season_agg <- player_seasons %>%
-                     group_by(player_season_id,N,x0,x_final) %>%
-					 summarise(y = mean(y)) %>% ungroup()
-lm(data = player_season_agg, y ~ x0) %>% summary
+player_seasons_agg <- player_seasons %>%
+                      group_by(player_season_id,N,x0,x_final) %>%
+					  summarise(y = mean(y)) %>% ungroup()
+lm(data = player_seasons_agg, y ~ x0) %>% summary
 ```
 
 ```
@@ -271,10 +273,10 @@ player_seasons %>% filter(play_in_season==1) %>%
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
                                                           mean = season_tendency,
 														  sd = sqrt(500)))
-player_season_agg <- player_seasons %>%
-                     group_by(player_season_id,N,x0,x_final) %>%
-					 summarise(y = mean(y)) %>% ungroup()
-lm(data = player_season_agg, y ~ x0) %>% summary
+player_seasons_agg <- player_seasons %>%
+                      group_by(player_season_id,N,x0,x_final) %>%
+					  summarise(y = mean(y)) %>% ungroup()
+lm(data = player_seasons_agg, y ~ x0) %>% summary
 ```
 
 The theoretical R-squared is `1500 / (1500 + 500) = 0.75` and we notice that we miss that mark even more
