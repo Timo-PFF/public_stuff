@@ -151,3 +151,39 @@ Residual standard error: 0.4529 on 998 degrees of freedom
 Multiple R-squared:  0.8313,	Adjusted R-squared:  0.8311 
 F-statistic:  4917 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
+
+Let's use a play-by-play residual variance of `500` (leading to a play-level R-squared of `~0.002`).
+
+```r
+player_seasons <- tibble(player_season_id = 1:1000,
+						 x = rnorm(1000, sd = 1),
+						 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
+				  tidyr::crossing(play_in_season = 1:5000) %>%
+				  filter(play_in_season <= N)
+				  
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = \sqrt(500)))
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>% summarise(y = mean(y)) %>% ungroup()
+lm(data = player_season_agg, y ~ x) %>% summary
+```
+
+Our expected R-squared on the season level is `500/(500 + 500) = 0.5` and indeed...
+
+```
+Call:
+lm(formula = y ~ x, data = player_season_agg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.5601 -0.6955  0.0235  0.7153  3.2148 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.05037    0.03324   1.515     0.13    
+x            1.04986    0.03263  32.174   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.051 on 998 degrees of freedom
+Multiple R-squared:  0.5091,	Adjusted R-squared:  0.5087 
+F-statistic:  1035 on 1 and 998 DF,  p-value: < 2.2e-16
+```
