@@ -131,7 +131,8 @@ player_seasons <- tibble(player_season_id = 1:1000,
 				  filter(play_in_season <= N)
 				  
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = 10))
-player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>% summarise(y = mean(y)) %>% ungroup()
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>%
+					 summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x) %>% summary
 ```
 
@@ -168,7 +169,8 @@ player_seasons <- tibble(player_season_id = 1:1000,
 				  filter(play_in_season <= N)
 				  
 player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = sqrt(500)))
-player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>% summarise(y = mean(y)) %>% ungroup()
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>%
+                     summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x) %>% summary
 ```
 
@@ -212,8 +214,11 @@ player_seasons <- player_seasons %>% group_by(player_season_id) %>%
 				  
 player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
 
-player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), mean = season_tendency, sd = sqrt(500)))
-player_season_agg <- player_seasons %>% group_by(player_season_id,N,x0,x_final) %>% summarise(y = mean(y)) %>% ungroup()
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
+                                                          mean = season_tendency, sd = sqrt(500)))
+player_season_agg <- player_seasons %>%
+                     group_by(player_season_id,N,x0,x_final) %>%
+					 summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x0) %>% summary
 ```
 
@@ -258,8 +263,11 @@ player_seasons <- player_seasons %>% group_by(player_season_id) %>%
 				  
 player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
 
-player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), mean = season_tendency, sd = sqrt(500)))
-player_season_agg <- player_seasons %>% group_by(player_season_id,N,x0,x_final) %>% summarise(y = mean(y)) %>% ungroup()
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons),
+                                                          mean = season_tendency, sd = sqrt(500)))
+player_season_agg <- player_seasons %>%
+                     group_by(player_season_id,N,x0,x_final) %>%
+					 summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x0) %>% summary
 ```
 
