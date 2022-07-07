@@ -97,7 +97,7 @@ Multiple R-squared:  0.4981,	Adjusted R-squared:  0.4981
 F-statistic: 5.954e+04 on 1 and 59998 DF,  p-value: < 2.2e-16
 ```
 
-We've learned that if the predictors come with constant variance (which is usually roughly the case), the R-squared value is just a codified version of the residual variance. What happens with variance if we repeat a random experiment multiple times? It get's smaller. How is this derived mathematically?
+We've learned that if the predictors come with constant variance (which is usually roughly the case), the R-squared value is just a codified version of the residual variance, scaled by scalars inherent to the model like the variance of the predictors as well as the size of the linear coefficients. What happens with variance if we repeat a random experiment multiple times? It get's smaller. How is this to be understood in a precise way and how is it derived mathematically?
 
 We have a random variable `T` with real values and observe it `n` times in an indepenent way and build the mean of the observations, in other words we consider a new random variable ![equation](https://latex.codecogs.com/png.latex?\frac{\sum_i^nT_i}{n}) with the `T_i` being i.i.d copies of `T`. Let's compute the variance, using the independency assumption:
 
