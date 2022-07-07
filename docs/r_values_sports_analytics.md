@@ -161,7 +161,7 @@ player_seasons <- tibble(player_season_id = 1:1000,
 				  tidyr::crossing(play_in_season = 1:5000) %>%
 				  filter(play_in_season <= N)
 				  
-player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = \sqrt(500)))
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = sqrt(500)))
 player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>% summarise(y = mean(y)) %>% ungroup()
 lm(data = player_season_agg, y ~ x) %>% summary
 ```
@@ -186,4 +186,93 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 1.051 on 998 degrees of freedom
 Multiple R-squared:  0.5091,	Adjusted R-squared:  0.5087 
 F-statistic:  1035 on 1 and 998 DF,  p-value: < 2.2e-16
+```
+
+Now let us investigate what happens if we acknowledge that `X` changes over time throughout the season in a random, but non-independent way.
+
+```r
+player_seasons <- tibble(player_season_id = 1:1000,
+                         x0 = rnorm(1000, sd = 1),
+						 season_tendency = rnorm(1000, sd = 0.2),
+                         N = round(rnorm(1000, mean = 500, sd = 50))) %>%
+				  tidyr::crossing(play_in_season = 1:5000) %>%
+				  filter(play_in_season <= N)
+
+player_seasons <- player_seasons %>% group_by(player_season_id) %>%
+                  mutate(x = lag(x0) + rnorm(n(), mean = season_tendency, sd = 0.05)) %>%
+				  mutate(x = ifelse(is.na(x), x0, x)) %>%
+				  mutate(x_final = last(x)) %>%
+				  ungroup()
+				  
+player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
+
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), mean = season_tendency, sd = sqrt(500)))
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x0,x_final) %>% summarise(y = mean(y)) %>% ungroup()
+lm(data = player_season_agg, y ~ x0) %>% summary
+```
+
+```
+Call:
+lm(formula = y ~ x0, data = player_season_agg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1836 -0.6842  0.0019  0.7821  3.3556 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.04034    0.03344  -1.206    0.228    
+x0           0.96178    0.03390  28.374   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.057 on 998 degrees of freedom
+Multiple R-squared:  0.4465,	Adjusted R-squared:  0.4459 
+F-statistic: 805.1 on 1 and 998 DF,  p-value: < 2.2e-16
+```
+
+Let's simulate three seasons, i.e. `1500` plays.
+
+
+```r
+player_seasons <- tibble(player_season_id = 1:1000,
+                         x0 = rnorm(1000, sd = 1),
+						 season_tendency = rnorm(1000, sd = 0.2),
+                         N = round(rnorm(1000, mean = 1500, sd = 50))) %>%
+				  tidyr::crossing(play_in_season = 1:5000) %>%
+				  filter(play_in_season <= N)
+
+player_seasons <- player_seasons %>% group_by(player_season_id) %>%
+                  mutate(x = lag(x0) + rnorm(n(), mean = season_tendency, sd = 0.05)) %>%
+				  mutate(x = ifelse(is.na(x), x0, x)) %>%
+				  mutate(x_final = last(x)) %>%
+				  ungroup()
+				  
+player_seasons %>% filter(play_in_season==1) %>% ggplot(aes(x = x_final - x0)) + geom_histogram()
+
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), mean = season_tendency, sd = sqrt(500)))
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x0,x_final) %>% summarise(y = mean(y)) %>% ungroup()
+lm(data = player_season_agg, y ~ x0) %>% summary
+```
+
+The theoretical R-squared is `1500 / (1500 + 500) = 0.75` and we notice that we miss that mark even more
+
+```
+Call:
+lm(formula = y ~ x0, data = player_season_agg)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.74356 -0.46739  0.03614  0.47855  2.39307 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.03706    0.02231  -1.661    0.097 .  
+x0           1.02770    0.02263  45.414   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.7051 on 998 degrees of freedom
+Multiple R-squared:  0.6739,	Adjusted R-squared:  0.6736 
+F-statistic:  2062 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
