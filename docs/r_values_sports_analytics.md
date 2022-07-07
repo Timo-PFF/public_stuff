@@ -114,3 +114,40 @@ This shows that the residual variance of the mean of `Y` over the `n` snaps is !
 ![equation](https://latex.codecogs.com/png.latex?R^2=\frac{1}{1+\frac{\sigma^2}{n}}=\frac{n}{n+\sigma^2}.)
 
 No matter how large ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2.), this will eventually approach `1` when `n` becomes large enough. Obviously, this is not happening in practice, so the practice, of course, violates an assumption we made and that's the independency of the residuals as well as the fixed nature of `X_0`. Over the course of a season or even a longer timeframe, our understanding of a player's ability changes and so does the true ability itself through development, aging or injuries (think of playing banged up). Obviously, a change of a player's ability will cause the residuals to change in a systematic way (instead of independently), thus the independency assumption is hurt. Changings to a player's surroundings (change of quarterback, change of role or just the change of the opposing cornerback from game to game) will also cause the residuals not to be perfectly independent.
+
+Before accounting for this issue, let us verify our formula nevertheless. Since we are considering wide receivers and 11 personnel dominates the NFL nowadays, we have a sample of roughly 100 players per season and let's assume we have ten seasons of data, i.e. `1000` player season worth of data. Assuming that a player's ability didn't change over the course of a season, here is code which simulates how our data would looke like if we loosely assume the sample size for each season is a normal distribution around `500`:
+
+```r
+player_seasons <- tibble(player_season_id = 1:1000,
+						 x = rnorm(1000, sd = 1),
+						 N = round(rnorm(1000, mean = 500, sd = 50))) %>%
+				  tidyr::crossing(play_in_season = 1:5000) %>%
+				  filter(play_in_season <= N)
+				  
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = 10))
+player_season_agg <- player_seasons %>% group_by(player_season_id,N,x) %>% summarise(y = mean(y)) %>% ungroup()
+lm(data = player_season_agg, y ~ x) %>% summary
+```
+
+The residual variance on the play-level is `100` hence - with an average of `500` plays per season - , we expect on R-squared value of `500/(500 + 100) = 5/6 = 0.833...` and indeed...
+
+
+```
+Call:
+lm(formula = y ~ x, data = player_season_agg)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.43097 -0.31278 -0.00408  0.30525  1.33517 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.009052   0.014326   0.632    0.528    
+x           0.988144   0.014092  70.122   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4529 on 998 degrees of freedom
+Multiple R-squared:  0.8313,	Adjusted R-squared:  0.8311 
+F-statistic:  4917 on 1 and 998 DF,  p-value: < 2.2e-16
+```
