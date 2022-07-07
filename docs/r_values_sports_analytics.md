@@ -6,7 +6,7 @@ My name is Timo Riske and I've actively been doing American football analytics s
 
 If you're practicing sports analytics, and that's especially true for American football analytics, and have talked to other stats people about models that try to predict future performance with past information, you might have heard the following response: "All I see is dramatically low R-squared values, nothing of this means anything".
 
-Indeed, predictive models on a play-level often come with a R-squared value in the range of only `0.01`. This sounds ridiculously low compared to the models you considered in university. Thus...this person is right and your work is useless and bad?
+Indeed, predictive models on a play-level often come with a R-squared value in the range of only `0.01` or even lower. This sounds ridiculously low compared to the models you considered in university. Thus...this person is right and your work is useless and bad?
 
 Here is the thing: This person couldn't be more wrong. This person was either not paying attention or understands less about stats than he/she might think.
 
