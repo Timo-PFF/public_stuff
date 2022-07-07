@@ -2,7 +2,7 @@
 
 ## Introduction
 
-My name is Timo Riske and I've actively been doing American football analytics since 2017 and I've been a data scientist for PFF since 2019. My academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry. The following article is about practicing in football and sports analytics, but it's too theoretical for an article about football on my employer's site (https://pff.com), hence I'm publishing it through GitHub.
+My name is Timo Riske and I've actively been doing American football analytics since 2017 and I've been a data scientist for PFF since 2019. Many of you probably know me only (if at all) through my work in football that I present on my twitter account [@PFF_Moo](https://twitter.com/PFF_Moo) or at [PFF](https://pff.com). In fact, my academic background is more of a theoretic nature, as I've graduated in commutative algebra and algebraic geometry. The following article is about practicing in football and sports analytics, but it's too theoretical for an article about football on my employer's site, hence I'm publishing it through GitHub.
 
 If you're practicing sports analytics, and that's especially true for American football analytics, and have talked to other stats people about models that try to predict future performance with past information, you might have heard the following response: "All I see is dramatically low R-squared values, nothing of this means anything".
 
