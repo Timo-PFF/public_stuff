@@ -39,7 +39,7 @@ We obtain (assuming the residuals are independent of `X`, which is one of the ba
 
 In particular, the R-squared values increases asymptotically towards `1` when the residual variance approaches zero and it approaches zero when the residual variances becomes large.
 
-We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores (thus `X` is centered around zero and has variance `1`) and predict yards gained on a route run. The following R code is a simplification of your data on the play level. According to our computations, it should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
+We can test this formular in R. To get back to football, there are roughly 20,000 passing plays per season, thus there are run roughly 60,000 wide receiver routes (11 personnel being dominant in today's game). Assume you have developed a wide receiver metric, standardized it to z-scores (thus `X` is centered around zero and has variance `1`) and predict yards gained on a route run. The following R code is a simplification of your data on the play-level for one season with a hypothetical play-level residual variance of `100`. According to our computations, it should lead to a R-squared value of `1/101` or roughly `0.01` according to our computation.
 
 ```r
 x <- rnorm(60*10^3, sd = 1)
@@ -97,7 +97,7 @@ Multiple R-squared:  0.4981,	Adjusted R-squared:  0.4981
 F-statistic: 5.954e+04 on 1 and 59998 DF,  p-value: < 2.2e-16
 ```
 
-inline <img src="https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}"> latex
+We've learned that if the predictors come with constant variance (which is usually roughly the case), the R-squared value is just a codified version of the residual variance. What happens with variance if we repeat a random experiment multiple times? It get's smaller. How is this derived mathematically?
 
-inline ![equation](https://latex.codecogs.com/png.latex?X%20=%20\sum%20\frac{X_i}{n}) latex
+We have a random variable `T` with real values and observe it `n` times in an indepenent way and build the mean of the result, in other words we consider ![equation](https://latex.codecogs.com/png.latex?\frac{\sum_i^n\operatorname{Var}(T)}{n}).
 
