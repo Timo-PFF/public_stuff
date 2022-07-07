@@ -111,7 +111,7 @@ If said wide-receiver plays `n` snaps (in a game or in a season) and we observe 
 
 ![equation](https://latex.codecogs.com/png.latex?\left(\frac{\sum\limits_{i=1}^nY_i}{n}\right)=X_0+\frac{\sum\limits_{i=1}^nE_i}{n}.)
 
-This shows that the residual variance of the mean of `Y` over the `n` snaps is ![equation](https://latex.codecogs.com/png.latex?\frac{\sigma^2}{n}) and the R-squared value when predicting this mean will be
+This shows that the residual variance of the mean of `Y` over the `n` snaps is ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}\left(\frac{\sum\limits_{i=1}^nE_i}{n}\right)=\frac{\operatorname{Var}(E)}{n}=\frac{\sigma^2}{n}) and the R-squared value when predicting this mean will be
 
 ![equation](https://latex.codecogs.com/png.latex?R^2=\frac{1}{1+\frac{\sigma^2}{n}}=\frac{n}{n+\sigma^2}.)
 
