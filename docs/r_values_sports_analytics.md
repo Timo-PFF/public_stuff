@@ -29,9 +29,9 @@ It's notable that the R-squared value of a linear model ![equation](https://late
 
 With `E = Y-X`, note that the numerator is `N * Var(E)` and the denominator is `N * Var(Y)` (with `N` being the number of observations), hence we get
 
-![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y)})
+![equation](https://latex.codecogs.com/png.latex?R^2=1-\frac{\operatorname{Var}(E)}{\operatorname{Var}(Y)}.)
 
-For the sake of normalization, let's assume ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(X)=1) (again, linear re-scaling doesn't change the R-squared value) and define ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2) 
+For the sake of normalization, let's assume ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(X)=1) (again, linear re-scaling doesn't change the R-squared value) and define ![equation](https://latex.codecogs.com/png.latex?\operatorname{Var}(E)=\sigma^2.) 
 
 We obtain (assuming the residuals are independent of `X`, which is one of the basic assumptions for the usability of a linear model)
 
