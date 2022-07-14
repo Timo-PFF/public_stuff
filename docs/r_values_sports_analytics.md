@@ -366,7 +366,9 @@ These are very close to the theoretical values `500/(500 + 500)` and `500/(500 +
 
 Now comes the interesting part: How wide is the distribution of these values?
 
-![Uncertainty of season-level R-squared values](https://github.com/Timo-PFF/public_stuff/blob/main/viz/r_squared_distribution_season_true.png)
+
+
+![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_season_true.png)
 
 And how likely is it that in a given universe (our *single* observed reality), the R-squared number of the more volatile metric (play-level variance of `500`) actually yields a higher year-to-year R-squared number?
 
