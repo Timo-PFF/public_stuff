@@ -317,3 +317,49 @@ In other words, if we could've run the last ten NFL season in 1000 parallel univ
 
 *This* is where this article is about to get really interesting.
 
+Let's re-run the code which simulates the theoretical R-squared number of a metric with a play-level R-squared number of `0.002` (residual variance `500`), but let's change two things:
+* We add another metric with a play-level R-squared number of `0.0025` (residual variance `400`) to the mix.
+* We simulate the reality in a `1000` parellel universes.
+
+Note that for the sake of runtime and memory, we lower to a sample size of five season, i.e. we have the following set up:
+* Players per season: `100`
+* Number of seasons: `5` (In reality that means at least `6` years of data, because you need a year to get priors)
+* Player per season: `500` on average, i.e. each player season's number of players is a normal distribution around `500`.
+
+The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe
+
+```r
+player_seasons <- tibble(player_season_id = 1:500) %>%
+  tidyr::crossing(sim_id = 1:1000)
+player_seasons <- player_seasons %>% mutate(
+  x = rnorm(nrow(player_seasons), sd = 1),
+  N = round(rnorm(nrow(player_seasons), mean = 500, sd = 50))
+)
+MAX_PLAYS <- player_seasons %$% max(N)
+player_seasons <- player_seasons %>%
+  tidyr::crossing(play_in_season = 1:MAX_PLAYS) %>%
+  filter(play_in_season <= N)
+
+player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = sqrt(500)),
+                                            y2 = x + rnorm(nrow(player_seasons), sd = sqrt(400)))
+player_season_agg <- player_seasons %>% group_by(player_season_id,sim_id,N,x) %>%
+  summarise(y = mean(y), y2 = mean(y2)) %>% ungroup()
+df_r2_seasons <- player_season_agg %>% group_by(sim_id) %>%
+  summarise(
+    r2_500=cor(y,x)^2,
+    r2_400=cor(y2,x)^2
+    ) %>% ungroup()
+```
+
+First of all, let's check the mean R-squared numbers among all parallel universes. (pipe from `library(magrittr)` required)
+
+```
+> df_r2_seasons %$% mean(r2_500)
+[1] 0.4969803
+
+> df_r2_seasons %$% mean(r2_400)
+[1] 0.551278
+
+```
+
+These are very close to the theoretical values `500/(500 + 500)` and `500/(500 + 400)`.
