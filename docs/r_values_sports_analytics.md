@@ -326,40 +326,39 @@ Note that for the sake of runtime and memory, we lower to a sample size of five 
 * Number of seasons: `5` (In reality that means at least `6` years of data, because you need a year to get priors)
 * Plays per player and season: `500` on average, i.e. each player season's number of players is a normal distribution around `500`.
 
-The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe
+The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe. For reasons that will become apparently, we simulate the seasons from the game-level, i.e. we simulate the plays of the 17 games of each season.
 
 ```r
-player_seasons <- tibble(player_season_id = 1:500) %>%
-  tidyr::crossing(sim_id = 1:1000)
-player_seasons <- player_seasons %>% mutate(
-  x = rnorm(nrow(player_seasons), sd = 1),
-  N = round(rnorm(nrow(player_seasons), mean = 500, sd = 50))
+player_games <- tibble(player_game_id = 1:(17*500), player_season_id = rep(1:500, each = 17)) %>%
+  tidyr::crossing(sim_id = 1:1000) %>% arrange(sim_id, player_season_id, player_game_id)
+player_games <- player_games %>% mutate(
+  x = rep(rnorm(nrow(player_games)/17, sd = 1), each = 17),
+  N = round(rnorm(nrow(player_games), mean = 500/17, sd = 50/17))
 )
-MAX_PLAYS <- player_seasons %$% max(N)
-player_seasons <- player_seasons %>%
-  tidyr::crossing(play_in_season = 1:MAX_PLAYS) %>%
-  filter(play_in_season <= N)
+player_games <- player_games %>% group_by(player_season_id,sim_id) %>% mutate(x0_season = x[1]) %>% ungroup()
+MAX_PLAYS <- player_games %$% max(N)
+player_games <- player_games %>%
+  tidyr::crossing(play_in_game = 1:MAX_PLAYS) %>%
+  filter(play_in_game <= N)
 
-player_seasons <- player_seasons %>% mutate(y = x + rnorm(nrow(player_seasons), sd = sqrt(500)),
-                                            y2 = x + rnorm(nrow(player_seasons), sd = sqrt(400)))
-player_season_agg <- player_seasons %>% group_by(player_season_id,sim_id,N,x) %>%
-  summarise(y = mean(y), y2 = mean(y2)) %>% ungroup()
-df_r2_seasons <- player_season_agg %>% group_by(sim_id) %>%
+player_games <- player_games %>% mutate(y = x + rnorm(nrow(player_games), sd = sqrt(500)),
+                                        y2 = x + rnorm(nrow(player_games), sd = sqrt(400)))
+player_seasons_agg <- player_games %>% group_by(player_season_id,sim_id,x) %>%
+  summarise(N = sum(N), y = mean(y), y2 = mean(y2)) %>% ungroup()
+df_r2_seasons <- player_seasons_agg %>% group_by(sim_id) %>%
   summarise(
     r2_500=cor(y,x)^2,
     r2_400=cor(y2,x)^2
-    ) %>% ungroup()
+  ) %>% ungroup()
 ```
 
 First of all, let's check the mean R-squared numbers among all parallel universes. (pipe from `library(magrittr)` required)
 
 ```
 > df_r2_seasons %$% mean(r2_500)
-[1] 0.4969803
-
+[1] 0.4992166
 > df_r2_seasons %$% mean(r2_400)
-[1] 0.551278
-
+[1] 0.5547872
 ```
 
 These are very close to the theoretical values `500/(500 + 500)` and `500/(500 + 400)`.
@@ -367,19 +366,17 @@ These are very close to the theoretical values `500/(500 + 500)` and `500/(500 +
 The much more interesting part: How wide is the distribution of these values? The standard deviations are roughly `0.03`
 ```
 > df_r2_seasons %$% sd(r2_500)
-[1] 0.03114735
+[1] 0.03129579
 > df_r2_seasons %$% sd(r2_400)
-[1] 0.03143505
+[1] 0.03009743
 ```
-
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_season_true.png)
-
 There is quite an overlap. How likely is it that in a given universe (our *single* observed reality), the R-squared number of the more volatile metric (play-level variance of `500`) actually yields a higher year-to-year R-squared number?
 ```
 > df_r2_seasons %$% mean(r2_500 > r2_400)
-[1] 0.077
+[1] 0.065
 ```
-There is a `7.7%` chance that when we compute the year-to-year R-squared numbers of these metrics in our single reality, we actually observe that the more volatile metric would be more stable.
+There is a `6.5%` chance that when we compute the year-to-year R-squared numbers of these metrics in our single reality, we actually observe that the more volatile metric would be more stable.
 
 Now, let us repeat the same on the game level, i.e. we use the following set up:
 
@@ -388,24 +385,12 @@ Note that for the sake of runtime and memory, we lower to a sample size of five 
 * Number of games: `5*17` (I.e. the same underlying data as `5` season)
 * Plays per player and season: `500/17` on average, i.e. each player season's number of players is a normal distribution around `500/17`.
 
-Note that the overall sample of players is exactly the same as in our simulation of the season-level R-squared numbers.
+Note that we have already implemented this above, i.e. we use the same simulated data, but this time we aggregate on the game-level:
+
 
 The following code implements this and computes the game-level R-squared number for both metrics in each parallel universe
 
 ```r
-player_games <- tibble(player_game_id = 1:(17*500)) %>%
-  tidyr::crossing(sim_id = 1:1000)
-player_games <- player_games %>% mutate(
-  x = rnorm(nrow(player_games), sd = 1),
-  N = round(rnorm(nrow(player_games), mean = 500/17, sd = 50/17))
-)
-MAX_PLAYS <- player_games %$% max(N)
-player_games <- player_games %>%
-  tidyr::crossing(play_in_game = 1:MAX_PLAYS) %>%
-  filter(play_in_game <= N)
-
-player_games <- player_games %>% mutate(y = x + rnorm(nrow(player_games), sd = sqrt(500)),
-                                            y2 = x + rnorm(nrow(player_games), sd = sqrt(400)))
 player_games_agg <- player_games %>% group_by(player_game_id,sim_id,N,x) %>%
   summarise(y = mean(y), y2 = mean(y2)) %>% ungroup()
 df_r2_games <- player_games_agg %>% group_by(sim_id) %>%
@@ -414,75 +399,60 @@ df_r2_games <- player_games_agg %>% group_by(sim_id) %>%
     r2_400=cor(y2,x)^2
   ) %>% ungroup()
 ```
-
 First of all, let's check the mean R-squared numbers among all parallel universes. (pipe from `library(magrittr)` required)
-
 ```
 > df_r2_games %$% mean(r2_500)
-[1] 0.05501584
-
+[1] 0.05477705
 > df_r2_games %$% mean(r2_400)
-[1] 0.06790806
-
+[1] 0.06766693
 ```
 These are very close to the theoretical values `500/17 / (500/17 + 500)` and `500/17 / (500/17 + 400)`.
 
 The standard deviations are obviously smaller,
 ```
 > df_r2_games %$% sd(r2_500)
-[1] 0.004912448
+[1] 0.005719208
 > df_r2_games %$% sd(r2_400)
-[1] 0.005183587
+[1] 0.00650888
 ```
 but that's not the point. The question is: How large is overlap compared to the season-level and what's the probability that we observe the more volatile metric as more stable?
 
 ```
 > df_r2_games %$% mean(r2_500 > r2_400)
-[1] 0.033
+[1] 0.030
 ```
-It turns out that the probability is only `3.3%`. Visually that means that the overlap is visibly smaller.
+It turns out that the probability is only `3.0%`. Visually that means that the overlap is visibly smaller.
 
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_game_true.png)
 
 
-Let's go a step further and go to the play-level, i.e. we simply simulate `500*500` plays (`5` seasons, `100` players per season, `500` plays per season and player).
+Let's go a step further and go to the play-level, i.e. we use the same simulated data and directly compute the R-squared values on the play-level.
 
 ```
-player_plays <- tibble(play_id = 1:(500*500)) %>%
-  tidyr::crossing(sim_id = 1:1000)
-player_plays <- player_plays %>% mutate(
-  x = rnorm(nrow(player_plays), sd = 1)
-)
-
-player_plays <- player_plays %>% mutate(y = x + rnorm(nrow(player_plays), sd = sqrt(500)),
-                                        y2 = x + rnorm(nrow(player_plays), sd = sqrt(400)))
-df_r2_plays <- player_plays %>% group_by(sim_id) %>%
+df_r2_plays <- player_games %>% group_by(sim_id) %>%
   summarise(
     r2_500=cor(y,x)^2,
     r2_400=cor(y2,x)^2
   ) %>% ungroup()
  ```
- The R-squared values are, of course, `1/501` and `1/401`, as expected
+The R-squared values are, of course, `1/501` and `1/401`, as expected
 ```
 > df_r2_plays %$% mean(r2_500)
-[1] 0.001996055
+[1] 0.001986829
 > df_r2_plays %$% mean(r2_400)
-[1] 0.002500072
+[1] 0.002488648
 ```
-These are very close to the theoretical values `500/17 / (500/17 + 500)` and `500/17 / (500/17 + 400)`.
-
 The standard deviations are even smaller.
 ```
 > df_r2_plays %$% sd(r2_500)
-[1] 0.0001749739
+[1] 0.0002173682
 > df_r2_plays %$% sd(r2_400)
-[1] 0.0001955183
+[1] 0.0002527953
 ```
-
-The interesting part: The probability that we directionally observe the wrong order of volatility has become smaller than on the play-level, as the chance is only `2.4%`:
+The interesting part: The probability that we directionally observe the wrong order of volatility has become even smaller than on the game-level, as the chance is only `2.7%`:
 ```
 > df_r2_plays %$% mean(r2_500 > r2_400)
-[1] 0.024
+[1] 0.027
 ```
 The overlap has become smaller, too:
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_play_true.png)
