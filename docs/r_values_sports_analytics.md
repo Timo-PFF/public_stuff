@@ -301,10 +301,17 @@ Multiple R-squared:  0.5021,	Adjusted R-squared:  0.5016
 F-statistic:  1007 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
 
-Summarising, we learned the following: Assuming the "true" expectation of a player wouldn't change over the course of a season, a `0.002` play-level R-squared number leads to a year-to-year R-squared number of `0.5` if a season consists of of roughly `500` player for each player. However, in reality, the expectation of a player changes over the course of a longer timefame for several reasons, hence to actual year-to-year R-squared is a bit lower. This effect becomes more stronger when looking at longer timeframes.
+Summarising, we learned the following: Assuming the "true" expectation of a player wouldn't change over the course of a season, a `0.002` play-level R-squared number leads to a year-to-year R-squared number of `0.5` if a season consists of of roughly `500` plays for each player. However, in reality, the expectation of a player changes over the course of a longer timefame for several reasons, hence to actual year-to-year R-squared is a bit lower. This effect becomes more stronger when looking at longer timeframes.
 
 This shows us two things:
 * Play-to-play R-squared must be tiny. If not, they would lead to unrealistic year-to-year R-squared numbers that we will never see.
 * Looking at longer timeframes increases the R-squared number, but the effect that the initial expectation gets more wrong over time sets a cap for the R-squared number.
 
+Whenever someone complains about tiny R-squared numbers on the play level, you can refer to this article.
+
+If you ran my code examples in your own R console, you might have noticed  that you got slightly different R-squared numbers. In fact, I had to run these example three or four times until falling on a R-squared number close enough to the theoretical mark. What does this mean? Well, it mostly means what should make us all very cautious when reporting R-squared numbers:
+
+**R-squared numbers come with uncertainty!**
+
+In other words, if we could've run the last ten NFL season in 1000 parallel universes, the year-to-year R-squared number of every metric would be different in each of these universe. But how large are these differences? Is the uncertainty large? And since we can observe only one reality, how meaningful is an observed difference of R-squared numbers between two metrics?
 
