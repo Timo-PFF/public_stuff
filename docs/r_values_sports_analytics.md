@@ -313,7 +313,7 @@ If you ran my code examples in your own R console, you might have noticed  that 
 
 **R-squared numbers come with uncertainty!**
 
-In other words, if we could've run the last ten NFL season in 1000 parallel universes, the year-to-year R-squared number of every metric would be different in each of these universe. But how large are these differences? Is the uncertainty large? And since we can observe only one reality, how meaningful is an observed difference of R-squared numbers between two metrics?
+In other words, if we could've run the last ten NFL seasons in 1000 parallel universes, the year-to-year R-squared number of every metric would be different in each of these universes. But how large are these differences? Is the uncertainty large? And since we can observe only one reality, how meaningful is an observed difference of R-squared numbers between two metrics?
 
 *This* is where this article is about to get really interesting.
 
@@ -321,10 +321,10 @@ Let's re-run the code which simulates the theoretical R-squared number of a metr
 * We add another metric with a play-level R-squared number of `0.0025` (residual variance `400`) to the mix.
 * We simulate the reality in a `1000` parellel universes.
 
-Note that for the sake of runtime and memory, we lower to a sample size of five season, i.e. we have the following set up:
+Note that for the sake of runtime and memory, we lower to a sample size of five seasons, i.e. we have the following set up:
 * Players per season: `100`
 * Number of seasons: `5` (In reality that means at least `6` years of data, because you need a year to get priors)
-* Player per season: `500` on average, i.e. each player season's number of players is a normal distribution around `500`.
+* Plays per player and season: `500` on average, i.e. each player season's number of players is a normal distribution around `500`.
 
 The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe
 
