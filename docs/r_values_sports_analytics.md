@@ -440,6 +440,6 @@ but that's not the point. The question is: How large is overlap compared to the 
 > df_r2_games %$% mean(r2_500 > r2_400)
 [1] 0.033
 ```
-It turns out that the probability is only `3.3%`
+It turns out that the probability is only `3.3%`. Visually that means that the overlap is visibly smaller.
 
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_game_true.png)
