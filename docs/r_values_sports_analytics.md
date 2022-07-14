@@ -395,7 +395,7 @@ df_r2_games <- player_games_agg %>% group_by(sim_id) %>%
     r2_400=cor(y2,x)^2
   ) %>% ungroup()
 ```
-First of all, let's check the mean R-squared numbers among all parallel universes. (pipe from `library(magrittr)` required)
+First of all, let's check the mean R-squared numbers among all parallel universes. (pipe from `library(magrittr)` used)
 ```
 > df_r2_games %$% mean(r2_500)
 [1] 0.05477705
