@@ -300,3 +300,11 @@ Residual standard error: 0.9476 on 998 degrees of freedom
 Multiple R-squared:  0.5021,	Adjusted R-squared:  0.5016 
 F-statistic:  1007 on 1 and 998 DF,  p-value: < 2.2e-16
 ```
+
+Summarising, we learned the following: Assuming the "true" expectation of a player wouldn't change over the course of a season, a `0.002` play-level R-squared number leads to a year-to-year R-squared number of `0.5` if a season consists of of roughly `500` player for each player. However, in reality, the expectation of a player changes over the course of a longer timefame for several reasons, hence to actual year-to-year R-squared is a bit lower. This effect becomes more stronger when looking at longer timeframes.
+
+This shows us two things:
+* Play-to-play R-squared must be tiny. If not, they would lead to unrealistic year-to-year R-squared numbers that we will never see.
+* Looking at longer timeframes increases the R-squared number, but the effect that the initial expectation gets more wrong over time sets a cap for the R-squared number.
+
+
