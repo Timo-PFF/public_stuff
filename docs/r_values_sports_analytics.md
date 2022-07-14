@@ -326,7 +326,7 @@ Note that for the sake of runtime and memory, we lower to a sample size of five 
 * Number of seasons: `5` (In reality that means at least `6` years of data, because you need a year to get priors)
 * Plays per player and season: `500` on average, i.e. each player season's number of players is a normal distribution around `500`.
 
-The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe. For reasons that will become apparently, we simulate the seasons from the game-level, i.e. we simulate the plays of the 17 games of each season.
+The following code implements this and computes the season-level R-squared number for both metrics in each parallel universe. For reasons that will become apparent very soon, we simulate the seasons from the game-level, i.e. we simulate the plays of the 17 games of each season.
 
 ```r
 player_games <- tibble(player_game_id = 1:(17*500), player_season_id = rep(1:500, each = 17)) %>%
