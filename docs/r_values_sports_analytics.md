@@ -383,7 +383,7 @@ Now, let us repeat the same on the game level, i.e. we use the following set up:
 Note that for the sake of runtime and memory, we lower to a sample size of five seasons, i.e. we have the following set up:
 * Players per game: `100`
 * Number of games: `5*17` (I.e. the same underlying data as `5` season)
-* Plays per player and season: `500/17` on average, i.e. each player season's number of players is a normal distribution around `500/17`.
+* Plays per player and game: `500/17` on average, i.e. each player games's number of plays is a normal distribution around `500/17`.
 
 Note that we have already implemented this above, i.e. we use the same simulated data, but this time we aggregate on the game-level:
 ```r
