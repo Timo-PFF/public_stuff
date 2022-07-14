@@ -454,6 +454,6 @@ The interesting part: The probability that we directionally observe the wrong or
 > df_r2_plays %$% mean(r2_500 > r2_400)
 [1] 0.027
 ```
-The overlap has become smaller, too:
+The difference is small enough to not be easily seen visually, but here is the plot nevertheless:
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_play_true.png)
 
