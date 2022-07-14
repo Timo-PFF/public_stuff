@@ -364,12 +364,20 @@ First of all, let's check the mean R-squared numbers among all parallel universe
 
 These are very close to the theoretical values `500/(500 + 500)` and `500/(500 + 400)`.
 
-Now comes the interesting part: How wide is the distribution of these values?
-
-
+The much more interesting part: How wide is the distribution of these values? The standard deviations are roughly `0.03`
+```
+> df_r2_seasons %$% sd(r2_500)
+[1] 0.03114735
+> df_r2_seasons %$% sd(r2_400)
+[1] 0.03143505
+```
 
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_season_true.png)
 
 And how likely is it that in a given universe (our *single* observed reality), the R-squared number of the more volatile metric (play-level variance of `500`) actually yields a higher year-to-year R-squared number?
-
+```
+> df_r2_seasons %$% mean(r2_500 > r2_400)
+[1] 0.077
+```
+There is a `7.7%` chance that when we compute the year-to-year R-squared numbers of these metrics in our single reality, we actually observe that the more volatile metric would be more stable.
 
