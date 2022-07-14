@@ -386,10 +386,6 @@ Note that for the sake of runtime and memory, we lower to a sample size of five 
 * Plays per player and season: `500/17` on average, i.e. each player season's number of players is a normal distribution around `500/17`.
 
 Note that we have already implemented this above, i.e. we use the same simulated data, but this time we aggregate on the game-level:
-
-
-The following code implements this and computes the game-level R-squared number for both metrics in each parallel universe
-
 ```r
 player_games_agg <- player_games %>% group_by(player_game_id,sim_id,N,x) %>%
   summarise(y = mean(y), y2 = mean(y2)) %>% ungroup()
