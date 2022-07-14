@@ -363,3 +363,7 @@ First of all, let's check the mean R-squared numbers among all parallel universe
 ```
 
 These are very close to the theoretical values `500/(500 + 500)` and `500/(500 + 400)`.
+
+Now comes the interesting part: How wide is the distribution of these values?
+
+And how likely is it that in a given universe (our *single* observed reality), the R-squared number of the more volatile metric (play-level variance of `500`) actually yields a higher year-to-year R-squared number?
