@@ -385,7 +385,7 @@ Now, let us repeat the same on the game level, i.e. we use the following set up:
 
 Note that for the sake of runtime and memory, we lower to a sample size of five seasons, i.e. we have the following set up:
 * Players per game: `100`
-* Number of games: `5 * 17` (I.e. the same underlying data as `5` season)
+* Number of games: `5*17` (I.e. the same underlying data as `5` season)
 * Plays per player and season: `500/17` on average, i.e. each player season's number of players is a normal distribution around `500/17`.
 
 Note that the overall sample of players is exactly the same as in our simulation of the season-level R-squared numbers.
@@ -443,3 +443,47 @@ but that's not the point. The question is: How large is overlap compared to the 
 It turns out that the probability is only `3.3%`. Visually that means that the overlap is visibly smaller.
 
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_game_true.png)
+
+
+Let's go a step further and go to the play-level, i.e. we simply simulate `500*500` plays (`5` seasons, `100` players per season, `500` plays per season and player).
+
+```
+player_plays <- tibble(play_id = 1:(500*500)) %>%
+  tidyr::crossing(sim_id = 1:1000)
+player_plays <- player_plays %>% mutate(
+  x = rnorm(nrow(player_plays), sd = 1)
+)
+
+player_plays <- player_plays %>% mutate(y = x + rnorm(nrow(player_plays), sd = sqrt(500)),
+                                        y2 = x + rnorm(nrow(player_plays), sd = sqrt(400)))
+df_r2_plays <- player_plays %>% group_by(sim_id) %>%
+  summarise(
+    r2_500=cor(y,x)^2,
+    r2_400=cor(y2,x)^2
+  ) %>% ungroup()
+ ```
+ The R-squared values are, of course, `1/501` and `1/401`, as expected
+```
+> df_r2_plays %$% mean(r2_500)
+[1] 0.001996055
+> df_r2_plays %$% mean(r2_400)
+[1] 0.002500072
+```
+These are very close to the theoretical values `500/17 / (500/17 + 500)` and `500/17 / (500/17 + 400)`.
+
+The standard deviations are even smaller.
+```
+> df_r2_plays %$% sd(r2_500)
+[1] 0.0001749739
+> df_r2_plays %$% sd(r2_400)
+[1] 0.0001955183
+```
+
+The interesting part: The probability that we directionally observe the wrong order of volatility has become smaller than on the game-level:
+```
+> df_r2_plays %$% mean(r2_500 > r2_400)
+[1] 0.024
+```
+The overlap has become smaller:
+![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_play_true.png)
+
