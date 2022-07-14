@@ -479,11 +479,11 @@ The standard deviations are even smaller.
 [1] 0.0001955183
 ```
 
-The interesting part: The probability that we directionally observe the wrong order of volatility has become smaller than on the game-level:
+The interesting part: The probability that we directionally observe the wrong order of volatility has become smaller than on the play-level, as the chance is only `2.4%`:
 ```
 > df_r2_plays %$% mean(r2_500 > r2_400)
 [1] 0.024
 ```
-The overlap has become smaller:
+The overlap has become smaller, too:
 ![Uncertainty of season-level R-squared values](https://raw.githubusercontent.com/Timo-PFF/public_stuff/main/viz/r_squared_distribution_play_true.png)
 
