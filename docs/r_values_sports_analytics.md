@@ -315,3 +315,5 @@ If you ran my code examples in your own R console, you might have noticed  that 
 
 In other words, if we could've run the last ten NFL season in 1000 parallel universes, the year-to-year R-squared number of every metric would be different in each of these universe. But how large are these differences? Is the uncertainty large? And since we can observe only one reality, how meaningful is an observed difference of R-squared numbers between two metrics?
 
+*This* is where this article is about to get really interesting.
+
