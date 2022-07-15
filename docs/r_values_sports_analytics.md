@@ -438,13 +438,6 @@ The R-squared values are, of course, `1/501` and `1/401`, as expected
 > df_r2_plays %$% mean(r2_400)
 [1] 0.002488648
 ```
-The standard deviations are even smaller.
-```
-> df_r2_plays %$% sd(r2_500)
-[1] 0.0002173682
-> df_r2_plays %$% sd(r2_400)
-[1] 0.0002527953
-```
 The interesting part: The probability that we directionally observe the wrong order of volatility has become even smaller than on the game-level, as the chance is only `2.7%`:
 ```
 > df_r2_plays %$% mean(r2_500 > r2_400)
