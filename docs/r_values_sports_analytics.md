@@ -1,4 +1,4 @@
-# About R(-squared) values in American football & sports analytics
+# About R(-squared) values in American football analytics
 
 ## Introduction
 
