@@ -1,5 +1,14 @@
 #Analyze variance of R^2 with prior not changing
+library(polars)
+pl$set_polars_options(named_exprs = TRUE)
 
+alternating_cor <- function(x){
+  n = length(x)
+  h = n/2
+  return(cor(x[2*(1:h) - 1], x[2*(1:h)]))
+}
+
+start = Sys.time()
 player_games <- tibble(player_game_id = 1:(17*500), player_season_id = rep(1:500, each = 17)) %>%
   tidyr::crossing(sim_id = 1:1000) %>% arrange(sim_id, player_season_id, player_game_id)
 player_games <- player_games %>% mutate(
@@ -24,6 +33,46 @@ df_r2_seasons <- player_seasons_agg %>% group_by(sim_id) %>%
     r2_500=cor(y,x)^2,
     r2_400=cor(y2,x)^2
   ) %>% ungroup()
+print(Sys.time()-start)
+
+
+# player_games <- pl$DataFrame(player_game_id = 1:(17*500), player_season_id = rep(1:500, each = 17))
+# player_games <- player_games$join(pl$DataFrame(sim_id = 1:1000), how = "cross")$sort("sim_id","player_season_id","player_game_id")
+start = Sys.time()
+player_games <- tibble(player_game_id = 1:(17*500), player_season_id = rep(1:500, each = 17)) %>%
+  tidyr::crossing(sim_id = 1:1000) %>% arrange(sim_id, player_season_id, player_game_id)
+player_games <- pl$DataFrame(player_games)
+player_games <- player_games$with_columns(
+  x = rep(rnorm(nrow(player_games)/17, sd = 1), each = 17),
+  N = round(rnorm(nrow(player_games), mean = 500/17, sd = 50/17))
+)
+player_games <- player_games$with_columns(x0_season = pl$col('x')$first()$over('player_season_id','sim_id'))
+MAX_PLAYS <- player_games$select(pl$col('N'))$to_series()$max()
+player_games <- player_games$to_data_frame() %>% tidyr::crossing(play_in_game = 1:MAX_PLAYS)
+player_games <- pl$DataFrame(player_games)
+player_games <- player_games$filter(pl$col('play_in_game')$lt_eq(pl$col('N')))
+player_games <- player_games$with_columns(
+  y = pl$col('x') + rnorm(nrow(player_games), sd = sqrt(500)),
+  y2 = pl$col('x') + rnorm(nrow(player_games), sd = sqrt(400))
+)
+player_games_agg <- player_games$groupby('player_game_id','sim_id','N','x')$agg(
+  y = pl$col('y')$mean(),
+  y2 = pl$col('y2')$mean()
+)
+player_seasons_agg <- player_games$groupby('player_season_id','sim_id','x')$agg(
+  N = pl$col('N')$sum(),
+  y = pl$col('y')$mean(),
+  y2 = pl$col('y2')$mean()
+)
+print(Sys.time()-start)
+df_r2_seasons <- player_seasons_agg$to_data_frame() %>% group_by(sim_id) %>%
+  summarise(
+    r2_500=cor(y,x)^2,
+    r2_400=cor(y2,x)^2
+  ) %>% ungroup()
+#df_r2_seasons <- player_seasons_agg$groupby("sim_id")$agg(pl$concat_list(list(pl$col("y"),pl$col("x")))$apply(function(x) 1 + x$to_vector() - 1)$alias("c"))$with_columns(c = pl$col("c")$apply(function(x) alternating_cor(x$to_vector())))
+
+
 df_r2_seasons %$% mean(r2_500)
 df_r2_seasons %$% sd(r2_500)
 df_r2_seasons %$% mean(r2_500)/df_r2_seasons %$% sd(r2_500)
